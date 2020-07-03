@@ -38,13 +38,14 @@ export default class App extends React.Component {
       temperature: 0,
       humidity: 0,
       weather: '',
-      created: '2000-01-01T00:00:00.000000Z'
+      time: '',
+      created: ''
     };
 
   }
   // Life cycle
   componentDidMount() {
-    this.handleUpdateLocation('Kiev');
+    this.handleUpdateLocation('UTE');
   }
 
   // Parse of date
@@ -58,7 +59,7 @@ export default class App extends React.Component {
       try {
 
         const ID = await getLocationId(city);
-        const { location, weather, temperature, humidity, created } = await getWeather(ID);
+        const { location, weather, temperature, humidity, time, created } = await getWeather(ID);
 
         this.setState({
           loading: false,
@@ -67,7 +68,7 @@ export default class App extends React.Component {
           weather,
           temperature,
           humidity,
-          getWeather,
+          time,
           created,
         });
 
@@ -87,7 +88,7 @@ export default class App extends React.Component {
   render() {
 
     // GET values of state
-    const { loading, error, location, weather, temperature, humidity, created } = this.state;
+    const { loading, error, location, weather, temperature, humidity, time, created } = this.state;
 
     // Activity
     return (
@@ -121,10 +122,13 @@ export default class App extends React.Component {
                        {weather}
                     </Text>
                     <Text style={[styles.largeText, styles.textStyle]}>
-                      {`${Math.round(temperature)}°`}
+                     Nhiệt độ: {`${Math.round(temperature)}°`}
                     </Text>
                     <Text style={[styles.largeText, styles.textStyle]}>
-                      {`${Math.round(humidity)}%`}
+                     Độ ẩm: {`${Math.round(humidity)}%`}
+                    </Text>
+                    <Text style={[styles.largeText, styles.textStyle]}>
+                     Thời gian: {this.handleDate(time)}
                     </Text>
                   </View>
                 )}
