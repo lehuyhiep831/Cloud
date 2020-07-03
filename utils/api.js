@@ -68,12 +68,13 @@ export const getWeather = async woeid => {
   );
 
   let { title, consolidated_weather } = await response.json();
-  let { weather_state_name, the_temp, created } = consolidated_weather[0];
+  let { weather_state_name, the_temp,humidity, created } = consolidated_weather[0];
 
   return {
     location: title,
     weather: weather_state_name,
     temperature: the_temp,
+    humidity: humidity,
     created: created
   };
 };

@@ -36,6 +36,7 @@ export default class App extends React.Component {
 
       location: '',
       temperature: 0,
+      humidity: 0,
       weather: '',
       created: '2000-01-01T00:00:00.000000Z'
     };
@@ -57,7 +58,7 @@ export default class App extends React.Component {
       try {
 
         const ID = await getLocationId(city);
-        const { location, weather, temperature, created } = await getWeather(ID);
+        const { location, weather, temperature, humidity, created } = await getWeather(ID);
 
         this.setState({
           loading: false,
@@ -65,6 +66,8 @@ export default class App extends React.Component {
           location,
           weather,
           temperature,
+          humidity,
+          getWeather,
           created,
         });
 
@@ -84,7 +87,7 @@ export default class App extends React.Component {
   render() {
 
     // GET values of state
-    const { loading, error, location, weather, temperature, created } = this.state;
+    const { loading, error, location, weather, temperature, humidity, created } = this.state;
 
     // Activity
     return (
@@ -119,6 +122,9 @@ export default class App extends React.Component {
                     </Text>
                     <Text style={[styles.largeText, styles.textStyle]}>
                       {`${Math.round(temperature)}°`}
+                    </Text>
+                    <Text style={[styles.largeText, styles.textStyle]}>
+                      {`${Math.round(humidity)}%`}
                     </Text>
                   </View>
                 )}
