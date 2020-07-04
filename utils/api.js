@@ -79,17 +79,33 @@ export const getWeather = async woeid => {
     created: created
   };
 };
-export const getTempHumid = async () => {
+export const getHumid = async () => {
 
   const response = await fetch(
-    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/`
-
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data`,
   );
-  let { Temperature, Humidity, Timestamp } = await response.json();
-  return {
-    
-    Temperature: Temperature,
-    Humidity: Humidity,
-    time: Timestamp,
-  };
+
+  const r = await response.json();
+
+  return r[0].Humidity;
+};
+export const getTemp = async () => {
+
+  const response = await fetch(
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data`,
+  );
+
+  const r = await response.json();
+
+  return r[0].Temperature;
+};
+export const getTimestamp = async () => {
+
+  const response = await fetch(
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data`,
+  );
+
+  const r = await response.json();
+
+  return r[0].Timestamp;
 };
