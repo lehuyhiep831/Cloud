@@ -59,7 +59,7 @@ export default class App extends React.Component {
       try {
 
         const ID = await getLocationId(city);
-        const { location, weather, time, created } = await getWeather(ID);
+        const { location, weather, created } = await getWeather(ID);
         const{temperature,humidity,time} = await getTempHumid();
         this.setState({
           loading: false,
@@ -128,7 +128,7 @@ export default class App extends React.Component {
                      Độ ẩm: {`${Math.round(humidity)}%`}
                     </Text>
                     <Text style={[styles.largeText, styles.textStyle]}>
-                     Thời gian: {this.handleDate(time)}
+                     Thời gian: {time}
                     </Text>
                   </View>
                 )}
