@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 // Utils
-import { getLocationId, getWeather } from './utils/api';
+import { getLocationId, getWeather, getTempHumid } from './utils/api';
 import getImageForWeather from './utils/getImageForWeather';
 import getIconForWeather from './utils/getIconForWeather';
 
@@ -45,7 +45,7 @@ export default class App extends React.Component {
   }
   // Life cycle
   componentDidMount() {
-    this.handleUpdateLocation('UTE');
+    this.handleUpdateLocation('Ho chi minh city');
   }
 
   // Parse of date
@@ -59,8 +59,8 @@ export default class App extends React.Component {
       try {
 
         const ID = await getLocationId(city);
-        const { location, weather, temperature, humidity, time, created } = await getWeather(ID);
-
+        const { location, weather, time, created } = await getWeather(ID);
+        const{temperature,humidity,time} = await getTempHumid();
         this.setState({
           loading: false,
           error: false,
