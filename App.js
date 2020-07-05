@@ -48,14 +48,14 @@ export default class App extends React.Component {
   }
   // Life cycle
   componentDidMount() {
-    this.handleUpdateLocation('30.1');
+    this.handleUpdate('30.1');
   }
 
   // Parse of date
   handleDate = date => moment(date).format("hh:mm:ss");
 
   // Update current location
-  handleUpdateLocation = async (curTemp) => {
+  handleUpdate = async (curTemp) => {
     if (!curTemp) return;
 
     this.setState({ loading: true }, async () => {
@@ -180,7 +180,7 @@ export default class App extends React.Component {
                   <Text style={[styles.smallText, styles.textStyle]}></Text>
                 <SearchInput
                   placeholder="Nhập nhiệt độ..."
-                  onSubmit={this.handleUpdateLocation}
+                  onSubmit={this.handleUpdate}
                 />
                
                <Text style={[styles.smallText, styles.textStyle]}>
