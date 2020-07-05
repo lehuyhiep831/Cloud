@@ -8,10 +8,11 @@ import {
   Platform,
   ActivityIndicator,
   StatusBar,
+  TextInput,
 } from 'react-native';
 
 // Utils
-import { getLocationId, getWeather, getHumid, getTemp, getTimestamp } from './utils/api';
+import { getLocationId, getWeather, getHumid, getTemp, getTimestamp, getNextTemp,getPreTemp } from './utils/api';
 import getImageForWeather from './utils/getImageForWeather';
 import getIconForWeather from './utils/getIconForWeather';
 
@@ -39,31 +40,33 @@ export default class App extends React.Component {
       humidity: 0,
       weather: '',
       time: '',
-      created: '',
-     // Temperature: 0 ,Humidity: 0, Timestamp: '',
+      nextTemp: '',
+      predictedTemp: '',
+      // Temperature: 0 ,Humidity: 0, Timestamp: '',
     };
 
   }
   // Life cycle
   componentDidMount() {
-    this.handleUpdateLocation('London');
+    this.handleUpdateLocation('london');
   }
 
   // Parse of date
   handleDate = date => moment(date).format("hh:mm:ss");
 
   // Update current location
-  handleUpdateLocation = async city => {
-    if (!city) return;
+  handleUpdateLocation = async (curTemp) => {
+    if (!curTemp) return;
 
     this.setState({ loading: true }, async () => {
       try {
 
-        const ID = await getLocationId(city);
-        const { location, weather, temperature, humidity, time, created } = await getWeather(ID);
+        const ID = await getLocationId('london');
+        const { location, weather, temperature, humidity, time } = await getWeather(44418);
         const Humidity = await getHumid();
         const Temperature = await getTemp();
         const Timestamp = await getTimestamp();
+
         this.setState({
           loading: false,
           error: false,
@@ -71,8 +74,9 @@ export default class App extends React.Component {
           weather,
           temperature: Temperature,
           humidity: Humidity,
-          time:Timestamp,
-          created,
+          time: Timestamp,
+          nextTemp: curTemp, //thay bằng predict
+          predictedTemp: Temperature,
           //Temperature ,Humidity, Timestamp
         });
 
@@ -81,18 +85,19 @@ export default class App extends React.Component {
 
         this.setState({
           loading: false,
-          error: true,
+          error: false,
         });
 
       }
     });
   };
 
+
   // RENDERING
   render() {
 
     // GET values of state
-    const { loading, error, location, weather, temperature, humidity, time, created } = this.state;
+    const { loading, error, weather, temperature, humidity, time, nextTemp ,predictedTemp} = this.state;
 
     // Activity
     return (
@@ -114,39 +119,83 @@ export default class App extends React.Component {
               <View>
                 {error && (
                   <Text style={[styles.smallText, styles.textStyle]}>
-                    😞 Could not load your city or weather. Please try again later...
+                    😞 Không load được dữ liệu...
                   </Text>
                 )}
                 {!error && (
                   <View>
-                    <Text style={[styles.largeText, styles.textStyle]}>
+                    {/* <Text style={[styles.largeText, styles.textStyle]}>
                       {getIconForWeather(weather)} {location}
                     </Text>
                     <Text style={[styles.smallText, styles.textStyle]}>
                        {weather}
+                    </Text> */}
+                    
+                    <Text style={[styles.largeText,styles.textStyle]}>
+                    Tp Hồ Chí Minh
                     </Text>
-                    <Text style={[styles.largeText, styles.textStyle]}>
-                     Nhiệt độ: {`${Math.round(temperature)}°`}
+
+                    <Text style={[styles.smallText, styles.textStyle]}>
+                      Nhiệt độ:
                     </Text>
-                    <Text style={[styles.largeText, styles.textStyle]}>
-                     Độ ẩm: {`${Math.round(humidity)}%`}
+                    <Text>
+                      <Text style={[styles.largeText, styles.textStyle]}>
+                      🌡️{`${temperature}°`}
+                      
+                      </Text>
                     </Text>
-                    <Text style={[styles.largeText, styles.textStyle]}>
-                     Thời gian: {time}
+                      
+                      <Text style={[styles.smallText, styles.textStyle]}>
+                      Dự đoán Nhiệt độ:
+                      </Text>
+                      
+                      <Text style={[styles.largeText, styles.textStyle]}>
+                      🌡️{`${temperature}°`}
+                      </Text>
+
+
+                    <Text style={[styles.smallText, styles.textStyle]}>
+                    Độ ẩm:
+                    </Text>
+                    <Text>
+                      <Text style={[styles.largeText, styles.textStyle]}>
+                      💦{`${predictedTemp}%`}
+                      </Text>
+                    </Text>
+                    
+                    <Text style={[styles.smallText, styles.textStyle]}>
+                      Thời gian:
+                    </Text>
+                    <Text style={[styles.smallText, styles.textStyle]}>
+                      {time}
                     </Text>
                   </View>
+                  
                 )}
-
+                <Text style={[styles.smallText, styles.textStyle]}></Text>
+                {
+                  <View style={[styles.border]}>
+                  <Text style={[styles.smallText, styles.textStyle]}></Text>
                 <SearchInput
-                  placeholder="Search any city"
+                  placeholder="Nhập nhiệt độ..."
                   onSubmit={this.handleUpdateLocation}
                 />
+               
+               <Text style={[styles.smallText, styles.textStyle]}>
+                    Nhiệt độ dự đoán: {`${nextTemp}°C`}
+                      </Text>
+                  
+                 
+                      <Text style={[styles.smallText, styles.textStyle]}></Text>
+                  </View>
+                }
+            
 
-                {!error && (
+                {/* {!error && (
                   <Text style={[styles.smallText, styles.textStyle]}>
                     Last update: {this.handleDate(created)}
                   </Text>
-                )}
+                )} */}
 
               </View>
             )}
@@ -189,4 +238,13 @@ const styles = StyleSheet.create({
   smallText: {
     fontSize: 18,
   },
+  border: {
+    borderBottomColor: 'white',
+    borderBottomWidth: 3,
+    borderTopColor: 'white',
+    borderTopWidth:3,
+  },
+  location:{
+    textAlign: 'left',
+  }
 });

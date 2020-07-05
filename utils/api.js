@@ -98,6 +98,7 @@ export const getTemp = async () => {
   const r = await response.json();
 
   return r[0].Temperature;
+  
 };
 export const getTimestamp = async () => {
 
@@ -109,3 +110,28 @@ export const getTimestamp = async () => {
 
   return r[0].Timestamp;
 };
+export const getNextTemp = async () => {
+
+  const response = await fetch(
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/predict`,
+  );
+
+ 
+  const r = await response.json();
+
+  return r[0].Next;
+};
+export const getPreTemp = async curTemp => {
+
+  const response = await fetch(
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/${curTemp} `
+  );
+
+  let { Next } = await response.json();
+
+  return {
+    next: Next,
+   
+  };
+};
+//http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/${curTemp} 

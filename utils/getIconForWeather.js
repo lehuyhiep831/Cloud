@@ -8,7 +8,8 @@ const icons = {
   Showers: '🌧️',
   Sleet: '🌨️',
   Snow: '❄️',
-  Thunder: '⛈️'
+  Thunder: '⛈️',
+  Arow: '➡️'
 };
 
 export default weather => icons[weather];
