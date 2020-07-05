@@ -48,7 +48,7 @@ export default class App extends React.Component {
   }
   // Life cycle
   componentDidMount() {
-    this.handleUpdateLocation('london');
+    this.handleUpdateLocation('30.1');
   }
 
   // Parse of date
@@ -153,13 +153,13 @@ export default class App extends React.Component {
                       🌡️{`${temperature}°`}
                       </Text>
 
-
+                      {/* độ ẩm */}
                     <Text style={[styles.smallText, styles.textStyle]}>
                     Độ ẩm:
                     </Text>
                     <Text>
                       <Text style={[styles.largeText, styles.textStyle]}>
-                      💦{`${predictedTemp}%`}
+                      💦{`${humidity}%`}
                       </Text>
                     </Text>
                     
