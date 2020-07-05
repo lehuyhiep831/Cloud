@@ -117,21 +117,16 @@ export const getNextTemp = async () => {
   );
 
  
-  const r = await response.json();
-
-  return r[0].Next;
+  let { Next } = await response.json();
+ return Next[0].Temperature;
 };
-export const getPreTemp = async curTemp => {
+export const getPreTemp = async (curTemp) => {
 
   const response = await fetch(
-    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/${curTemp} `
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/${curTemp}`,
   );
 
   let { Next } = await response.json();
-
-  return {
-    next: Next,
-   
-  };
+  return Next[0].Temperature;
 };
 //http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/${curTemp} 

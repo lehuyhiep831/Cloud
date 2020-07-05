@@ -66,6 +66,8 @@ export default class App extends React.Component {
         const Humidity = await getHumid();
         const Temperature = await getTemp();
         const Timestamp = await getTimestamp();
+        const nextTemp = await getNextTemp();
+        const customPredictedTemp = await getPreTemp(curTemp);
 
         this.setState({
           loading: false,
@@ -75,8 +77,8 @@ export default class App extends React.Component {
           temperature: Temperature,
           humidity: Humidity,
           time: Timestamp,
-          nextTemp: curTemp, //thay bằng predict
-          predictedTemp: Temperature,
+          nextTemp: nextTemp, //thay bằng predict
+          custompredictedTemp: customPredictedTemp,
           //Temperature ,Humidity, Timestamp
         });
 
@@ -97,7 +99,7 @@ export default class App extends React.Component {
   render() {
 
     // GET values of state
-    const { loading, error, weather, temperature, humidity, time, nextTemp ,predictedTemp} = this.state;
+    const { loading, error, weather, temperature, humidity, time, nextTemp ,custompredictedTemp} = this.state;
 
     // Activity
     return (
@@ -150,7 +152,7 @@ export default class App extends React.Component {
                       </Text>
                       
                       <Text style={[styles.largeText, styles.textStyle]}>
-                      🌡️{`${temperature}°`}
+                      🌡️{`${Math.round(nextTemp * 10) / 10}°`}
                       </Text>
 
                       {/* độ ẩm */}
@@ -182,7 +184,7 @@ export default class App extends React.Component {
                 />
                
                <Text style={[styles.smallText, styles.textStyle]}>
-                    Nhiệt độ dự đoán: {`${nextTemp}°C`}
+                    Nhiệt độ dự đoán: {`${Math.round(custompredictedTemp * 10) / 10}°C`}
                       </Text>
                   
                  
