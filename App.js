@@ -43,6 +43,7 @@ export default class App extends React.Component {
       time: '',
       nextTemp: '',
       predictedTemp: '',
+      noti: '',
       // Temperature: 0 ,Humidity: 0, Timestamp: '',
     };
 
@@ -50,14 +51,7 @@ export default class App extends React.Component {
   // Life cycle
   componentDidMount() {
     this.handleUpdate('30.1');
-    // this.timerID = setInterval(
-    //   () => this.handleUpdate('30.1'),
-    //   10000
-    // );
-    // this.timerID2 = setInterval(
-    //   () => this.render(),
-    //   10000
-    // );
+    
   }
 
   // Parse of date
@@ -77,6 +71,11 @@ export default class App extends React.Component {
         const Timestamp = await getTimestamp();
         const nextTemp = await getNextTemp();
         const customPredictedTemp = await getPreTemp(curTemp);
+        const  Noti = 'Nên dùng kem chống nắng khi ra ngoài.';
+        if(temperature > 30){
+            Noti = "Nên dùng kem chống nắng khi ra ngoài."};
+           
+       
 
         this.setState({
           loading: false,
@@ -88,6 +87,7 @@ export default class App extends React.Component {
           time: Timestamp,
           nextTemp: nextTemp, //thay bằng predict
           custompredictedTemp: customPredictedTemp,
+          noti: Noti,
           //Temperature ,Humidity, Timestamp
         });
 
@@ -108,7 +108,7 @@ export default class App extends React.Component {
   render() {
 
     // GET values of state
-    const { loading, error, weather, temperature, humidity, time, nextTemp ,custompredictedTemp} = this.state;
+    const { loading, error, weather, temperature, humidity, time, nextTemp ,custompredictedTemp,noti} = this.state;
 
     // Activity
     return (
@@ -154,8 +154,12 @@ export default class App extends React.Component {
                       🌡️{`${temperature}°`}
                       
                       </Text>
+                     
+
                     </Text>
-                      
+                    <Text style={[styles.smallText, styles.textStyle]}>
+                      {noti}
+                    </Text>
                       <Text style={[styles.smallText, styles.textStyle]}>
                       Dự đoán Nhiệt độ:
                       </Text>

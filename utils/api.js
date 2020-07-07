@@ -129,4 +129,4 @@ export const getPreTemp = async (curTemp) => {
   let { Next } = await response.json();
   return Next[0].Temperature;
 };
-//http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/${curTemp} 
+//http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/29.0 
