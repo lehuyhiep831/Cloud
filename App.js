@@ -15,7 +15,7 @@ import {
 // Utils
 import { getLocationId, getWeather, getHumid, getTemp, getTimestamp, getNextTemp,getPreTemp, getNoti } from './utils/api';
 import getImageForWeather from './utils/getImageForWeather';
-import getIconForWeather from './utils/getIconForWeather';
+
 
 // Search component
 import SearchInput from './SearchInput';
