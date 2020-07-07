@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 // Utils
-import { getLocationId, getWeather, getHumid, getTemp, getTimestamp, getNextTemp,getPreTemp } from './utils/api';
+import { getLocationId, getWeather, getHumid, getTemp, getTimestamp, getNextTemp,getPreTemp, getNoti } from './utils/api';
 import getImageForWeather from './utils/getImageForWeather';
 import getIconForWeather from './utils/getIconForWeather';
 
@@ -56,7 +56,7 @@ export default class App extends React.Component {
 
   // Parse of date
   handleDate = date => moment(date).format("hh:mm:ss");
-
+ 
   // Update current location
   handleUpdate = async (curTemp) => {
     if (!curTemp) return;
@@ -71,11 +71,8 @@ export default class App extends React.Component {
         const Timestamp = await getTimestamp();
         const nextTemp = await getNextTemp();
         const customPredictedTemp = await getPreTemp(curTemp);
-        const  Noti = 'Nên dùng kem chống nắng khi ra ngoài.';
-        if(temperature > 30){
-            Noti = "Nên dùng kem chống nắng khi ra ngoài."};
-           
-       
+        const  Noti = await getNoti();
+        
 
         this.setState({
           loading: false,
@@ -87,6 +84,7 @@ export default class App extends React.Component {
           time: Timestamp,
           nextTemp: nextTemp, //thay bằng predict
           custompredictedTemp: customPredictedTemp,
+          
           noti: Noti,
           //Temperature ,Humidity, Timestamp
         });
@@ -151,13 +149,13 @@ export default class App extends React.Component {
                     </Text>
                     <Text>
                       <Text style={[styles.largeText, styles.textStyle]}>
-                      🌡️{`${temperature}°`}
+                      🌡️{`${Math.round(temperature * 10) / 10}°`}
                       
                       </Text>
                      
 
                     </Text>
-                    <Text style={[styles.smallText, styles.textStyle]}>
+                       <Text style={[styles.smallText, styles.textStyle]}>
                       {noti}
                     </Text>
                       <Text style={[styles.smallText, styles.textStyle]}>
@@ -174,7 +172,7 @@ export default class App extends React.Component {
                     </Text>
                     <Text>
                       <Text style={[styles.largeText, styles.textStyle]}>
-                      💦{`${humidity}%`}
+                      💦{`${Math.round(humidity * 10) / 10}%`}
                       </Text>
                     </Text>
                     

@@ -130,3 +130,16 @@ export const getPreTemp = async (curTemp) => {
   return Next[0].Temperature;
 };
 //http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data/next/29.0 
+export const getNoti = async () => {
+  const response = await fetch(
+    `http://cloud04clcn3api-env.eba-ybpabj8s.ap-northeast-1.elasticbeanstalk.com/api/v1/data`,
+  );
+
+  const r = await response.json();
+
+  let temp= r[0].Temperature;
+  if(temp>30.0)
+  return 'Nên dùng kem chống nắng khi ra ngoài.';
+  else
+  return '';
+};
