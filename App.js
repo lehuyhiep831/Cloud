@@ -49,14 +49,15 @@ export default class App extends React.Component {
   }
   // Life cycle
   componentDidMount() {
-    this.timerID = setInterval(
-      () => this.handleUpdate('30.1'),
-      10000
-    );
-    this.timerID2 = setInterval(
-      () => this.render(),
-      10000
-    );
+    this.handleUpdate('30.1');
+    // this.timerID = setInterval(
+    //   () => this.handleUpdate('30.1'),
+    //   10000
+    // );
+    // this.timerID2 = setInterval(
+    //   () => this.render(),
+    //   10000
+    // );
   }
 
   // Parse of date
